@@ -47,9 +47,9 @@ public class CreateOrderMoMo extends AbstractProcess<PaymentRequest, PaymentResp
             CreateOrderMoMo m2Processor = new CreateOrderMoMo(env);
 
             PaymentRequest request = m2Processor.createPaymentCreationRequest(orderId, requestId, amount, orderInfo, returnURL, notifyURL, extraData, requestType, autoCapture);
-            PaymentResponse captureMoMoResponse = m2Processor.execute(request);
+//            PaymentResponse captureMoMoResponse = m2Processor.execute(request);
 
-            return captureMoMoResponse;
+            return m2Processor.execute(request);
         } catch (Exception exception) {
             LogUtils.error("[CreateOrderMoMoProcess] "+ exception);
         }
@@ -61,7 +61,7 @@ public class CreateOrderMoMo extends AbstractProcess<PaymentRequest, PaymentResp
         try {
 
             String payload = getGson().toJson(request, PaymentRequest.class);
-
+            //loi co the xay ra o ngay day
             HttpResponse response = execute.sendToMoMo(environment.getMomoEndpoint().getCreateUrl(), payload);
 
             if (response.getStatus() != 200) {
@@ -113,7 +113,7 @@ public class CreateOrderMoMo extends AbstractProcess<PaymentRequest, PaymentResp
                     .append(Parameter.REQUEST_ID).append("=").append(requestId).append("&")
                     .append(Parameter.REQUEST_TYPE).append("=").append(requestType.getRequestType())
                     .toString();
-
+            System.out.println("chuỗi request siêu dep: " + requestRawData);
             String signRequest = Encoder.signHmacSHA256(requestRawData, partnerInfo.getSecretKey());
             LogUtils.debug("[PaymentRequest] rawData: " + requestRawData + ", [Signature] -> " + signRequest);
 

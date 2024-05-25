@@ -20,7 +20,7 @@ public class Execute {
 
             Request request = createRequest(httpRequest);
 
-            LogUtils.debug("[HttpPostToMoMo] Endpoint:: " + httpRequest.getEndpoint() + ", RequestBody:: " + httpRequest.getPayload());
+            LogUtils.debug("[HttpPostToMoMo] Endpoint: " + httpRequest.getEndpoint() + ", RequestBody: " + httpRequest.getPayload());
 
             Response result = client.newCall(request).execute();
             HttpResponse response = new HttpResponse(result.code(), result.body().string(), result.headers());
